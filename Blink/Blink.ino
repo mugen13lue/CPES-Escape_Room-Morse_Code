@@ -1,5 +1,6 @@
 
 #include <TimedAction.h>
+
 #include <FastLED.h>
 
 // How many leds in your strip?
@@ -35,8 +36,8 @@ TimedAction LED0 =  TimedAction(TIME_UNIT, led0);
 int pos0 = 0;
 void led0(){
   int arr[] = {0,0,0,1,1,1,0,0,0,3};
-  if (arbitraryLedDo(0, 64, 0 ,0, LED0, arr[pos0]) )
-    pos0 = (pos0 +1) %10; 
+  if (arbitraryLedDo(0, 128, 0 ,0, LED0, arr[pos0]) )
+    pos0 = (pos0 +1) % 10; 
 }
 
 TimedAction LED2 = TimedAction(TIME_UNIT, led2);
@@ -46,15 +47,16 @@ void led2(){
   if (arbitraryLedDo(2, 128, 0, 0, LED2, arr[pos2]) )
     pos2 = (pos2 +1) % 5 ;
 }
-  
+
 //____________________________________________________setup____________________________________
 void setup() { 
     FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);       
 }
+
 //_________________________________________________the singular function to handle the led activations____________
 
-boolean arbitraryLedDo(int ledNum, int r, int g, int b, TimedAction action, int instruction){
-  if( leds[ledNum].r > 0 || leds[ledNum].g > 0 || leds[ledNum].b > 0){
+boolean arbitraryLedDo(int ledNum, int r, int g, int b, TimedAction& action, int instruction){
+  if( leds[ledNum].r > 0 || leds[ledNum].g > 0 || leds[ledNum].b > 0 ){
       leds[ledNum] = CRGB::Black;
       action.setInterval(TIME_UNIT);
       return false;
