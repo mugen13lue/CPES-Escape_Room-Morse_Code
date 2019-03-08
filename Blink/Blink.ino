@@ -31,19 +31,101 @@ void sEnd(int i, int r, int g, int b){
   //do nothing
 }
 //________________________________________________________________creating the timedActions and their respective functions_______________________________________
-int positions[50] = {};
+String encode(const char *string);
 
-//position array
-int inst [50][50] = {};
-int i;
-for ( i = 0; i <50 ; i++){
+String decode(String morse);
+
+//Build a struct with the morse code mapping
+static const struct {const char letter, *code;} MorseMap[] =
+{
+  { 'A', "01" },
+  { 'B', "1000" },
+  { 'C', "1010" },
+  { 'D', "100" },
+  { 'E', "0" },
+  { 'F', "0010" },
+  { 'G', "110" },
+  { 'H', "0000" },
+  { 'I', "00" },
+  { 'J', "0111" },
+  { 'K', "0101" },
+  { 'L', "0100" },
+  { 'M', "11" },
+  { 'N', "10" },
+  { 'O', "111" },
+  { 'P', "0110" },
+  { 'Q', "1101" },
+  { 'R', "010" },
+  { 'S', "000" },
+  { 'T', "1" },
+  { 'U', "001" },
+  { 'V', "0001" },
+  { 'W', "011" },
+  { 'X', "1001" },
+  { 'Y', "1011" },
+  { 'Z', "1100" },
+  { ' ', "2" }, //Gap between word, seven units 
+    
+  { '1', "01111" },
+  { '2', "00111" },
+  { '3', "00011" },
+  { '4', "00001" },
+  { '5', "00000" },
+  { '6', "10000" },
+  { '7', "11000" },
+  { '8', "11100" },
+  { '9', "11110" },
+  { '0', "11111" },
+    
+  { '.', "010101" },
+  { ',', "110011" },
+  { '?', "001100" },
+  { '!', "101011" },
+  { ':', "111000" },
+  { ';', "101010" },
+  { '(', "10110" },
+  { ')', "101101" },
+  { '"', "010010" },
+  { '@', "011010" },
+  { '&', "01000" },
+};
+
+String encode(const char *string)
+{
+  size_t i, j;
+  String morseWord = "";
   
+  for( i = 0; string[i]; ++i )
+  {
+    for( j = 0; j < sizeof MorseMap / sizeof *MorseMap; ++j )
+    {
+      if( toupper(string[i]) == MorseMap[j].letter )
+      {
+        morseWord += MorseMap[j].code;
+        break;
+      }
+    }
+    morseWord += " "; //Add tailing space to seperate the chars
+  }
+
+  return morseWord;  
+}
+
+
+//_____________________________________________________________-all that shit____________________________________
+
+int positions[50] = {};
+//position array
+int inst[50][50] = {};
+int i;
+for (i = 0; i <50 ; i++){
+ inst[i] = encode("test ");
 }
 //instruction array
 
 TimedAction LED0 =  TimedAction(TIME_UNIT, led0); 
 void led0(){
-  int arr[] = inst[0];
+  int arr[] = encode("stuffs");z
   if (arbitraryLedDo(0, 128, 0 ,0, LED0, arr[positions[0]]) )
     ++positions[0];
 }
@@ -344,7 +426,10 @@ void led49(){
 
 //____________________________________________________setup____________________________________
 void setup() { 
-    FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);       
+    FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);
+    pinMode( 0, OUTPUT );
+    digitalWrite( 1, LOW );
+    Serial.begin(9600);       
 }
 
 //_________________________________________________the singular function to handle the led activations____________
@@ -372,7 +457,7 @@ boolean arbitraryLedDo(int ledNum, int r, int g, int b, TimedAction& action, int
           sEnd(ledNum, r, g, b);//technically usless
           action.setInterval(6*TIME_UNIT);
           break;
-        case -1:
+        case 9:
           positions[ledNum] = 0;
           action.setInterval(0);
           break;
@@ -436,5 +521,5 @@ void loop() {
     LED49.check();
     FastLED.show();
 }
-  
+ 
   
