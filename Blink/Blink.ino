@@ -4,7 +4,7 @@
 #include <FastLED.h>
 
 // How many leds in your strip?
-#define NUM_LEDS 50
+#define NUM_LEDS 40
 
 #define TIME_UNIT 500
 
@@ -116,13 +116,13 @@ String encode(String str)
 
 
 //_____________________________________________________________-all that shit____________________________________
-unsigned char positions[50] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char positions[40] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //position array
-unsigned char inst[50][22] = {
+unsigned char inst[40][22] = {
   {1,0,1,0,2,0,1,1,0,2,0,2,0,0,0,4},//0
   {0,1,0,2,1,1,1,2,1,0,1,0,2,1,0,1,2,0,0,0,4},//1
   {1,1,0,0,1,0,1, 4},//2
-  {1,1,1,1,0,2,0,4},//3 Step 5 "9E" 4A
+  {0,0,1,1,1,2,1,0,0,4},//3 Step 5 "2D" 4A
   {0,1,1,0,0,0,1,1,1,  4},//4
   {0,1,1,1,0,0, 4},//5
   {0,0,0,0,0,0,0, 4},//6
@@ -134,7 +134,7 @@ unsigned char inst[50][22] = {
   {1,0,0,1,1,0,0,1, 4},//12
   {0,1,0,0,1,1,1,0,4},//13
   {0,1,1,0,1, 4},//14
-  {0,0,1,1,1,2,0,4},//15 Step 1 "2E" B5
+  {1,1,1,1,0,2,1,0,0,4},//15 Step 1 "9D" B5
   {1,0,1,1,0,1,0,4},//16
   {1,0,0,0,0,1,1,1,1,1,4},//17
   {1,0,0,0,0,0,1,1,1,1,0,0,1,1,0,1,0,1,0,0,4},//18
@@ -150,25 +150,25 @@ unsigned char inst[50][22] = {
   {0,2,0,2,1,1,2,1,2,1,0, 4},//28
   {0,0,0,2,1,1,1,0,0,0,2,0,0,0,0,0,0,4},//29
   {1,2,0,0,0,1,1,2,0,1,1,2,0,2,1, 4},//30
-  {1,1,1,2,0,0,0,1,1,2,0,2,0,0,4},//31
+  {1,1,1,0,0,2,1,0,1,0,4},//31 Step 2 "8C" D9
   {0,1,2,1,0 ,4},//32
   {0,0,1,1,2,0,1,1, 4},//33
   {0,0,0,0,1,2,0,1,4},//34 Step 4 "4A" 6D
   {0,1,1,0,2,1,1,0,0,1,1, 4},//35
   {1,1,0,1,0,0,1,2,0,1,2 ,4},//36
   {0,0,1,0,0,1,1,1,1,1,1,1,1,1,1, 4},//37
-  {0,0,0,0,0,0,2,0,0,0,0,0,1,0,0,2,1, 4},//38
-  {0,0,0,0,1,2,0,0,0,0,0,0,1, 4},//39
-  {0,0,1,0, 4},//40
-  {1,1,1,0,0,2,1,0,1,0,4},//41 Step 2 "8C" 2E
-  {1,1,0,0,0,1,1,1}, // 42
-  {0,0,0,0,2,0,0,1,2,0,0, 4},//43
-  {0,0,0,1,2,1,1,1,0,2,1,1,0,0,2,1,4},//44
-  {0,0,1,1,2,1,1,1,1,2,0,0,0, 4},//45
-  {0,1,2,1,0,4},//46
-  {0,2,1,0,1,2,0,0,0,4},//47
-  {0,2,1,0,2,1,0,0,4},//48 Step 6 "END" 9E
-  {0,1,1,1,1,2,0,0,0,0,0,2,1,1,2,0,0,0, 4}//49
+  {0,2,1,0,2,1,0,0,4},//38 Step 6 "END" 2D
+  {0,1,1,1,4},//39
+//  {0,1,0,1,0,1,4},//40
+//  {1,1,1,0,0,2,1,0,1,0,4},//41 Step 2 "8C" 2E
+//  {0,0,1,0,0,0,14}, // 42
+//  {0,0,0,0,2,0,0,1,2,0,0, 4},//43
+//  {0,0,0,1,2,1,1,1,0,2,1,1,0,0,2,1,4},//44
+//  {0,0,1,1,2,1,1,1,1,2,0,0,0, 4},//45
+//  {0,1,2,1,0,4},//46
+//  {0,2,1,0,1,2,0,0,0,4},//47
+//  {0,2,1,0,2,1,0,0,4},//48 Step 6 "END" 9E
+//  {0,1,1,1,1,0,2,1,1,2,0,0,0, 4}//49
   };
 
 /*
@@ -256,8 +256,8 @@ void led2(){
 }
 TimedAction LED3 = TimedAction(TIME_UNIT, led3);
 void led3(){
-  //Step 5, red
-  if (arbitraryLedDo(3, 255, 0, 0, LED3, inst[3][positions[3]]) )
+  //Step 5, ORANGE
+  if (arbitraryLedDo(3, 255, 69, 0, LED3, inst[3][positions[3]]) )
     ++positions[3];
 }
 TimedAction LED4 =  TimedAction(TIME_UNIT, led4); 
@@ -317,8 +317,8 @@ void led14(){
 }
 TimedAction LED15 =  TimedAction(TIME_UNIT, led15); 
 void led15(){
-  //step 1 START Purple
-  if (arbitraryLedDo(15, 255, 0 ,255, LED15, inst[15][positions[15]]) )
+  //step 1 START GREEN
+  if (arbitraryLedDo(15, 0, 255 ,0, LED15, inst[15][positions[15]]) )
     ++positions[15];
 }
 TimedAction LED16 = TimedAction(TIME_UNIT, led16);
@@ -363,7 +363,7 @@ void led23(){
 }
 TimedAction LED24 =  TimedAction(TIME_UNIT, led24); 
 void led24(){
-  if (arbitraryLedDo(24, 100, 100 ,60, LED24, inst[24][positions[24]]) )
+  if (arbitraryLedDo(24, 100, 30 ,60, LED24, inst[24][positions[24]]) )
     ++positions[24];
 }
 TimedAction LED25 =  TimedAction(TIME_UNIT, led25); 
@@ -373,13 +373,13 @@ void led25(){
 }
 TimedAction LED26 = TimedAction(TIME_UNIT, led26);
 void led26(){
-  if (arbitraryLedDo(26, 74, 20, 36, LED26, inst[26][positions[26]]) )
+  if (arbitraryLedDo(26, 0, 20, 36, LED26, inst[26][positions[26]]) )
     ++positions[26];
 }
 TimedAction LED27 = TimedAction(TIME_UNIT, led27);
 void led27(){
-  //step 3, Orange
-  if (arbitraryLedDo(27, 255, 69, 0, LED27, inst[27][positions[27]]) )
+  //step 3, RED
+  if (arbitraryLedDo(27, 255, 0, 0, LED27, inst[27][positions[27]]) )
     ++positions[27];
 }
 TimedAction LED28 = TimedAction(TIME_UNIT, led28);
@@ -399,7 +399,8 @@ void led30(){
 }
 TimedAction LED31 =  TimedAction(TIME_UNIT, led31); 
 void led31(){
-  if (arbitraryLedDo(31, 100, 16 ,100, LED31, inst[31][positions[31]]) )
+  //STEP 2 PURPLE
+  if (arbitraryLedDo(31, 255, 0 ,255, LED31, inst[31][positions[31]]) )
     ++positions[31];
 }
 TimedAction LED32 = TimedAction(TIME_UNIT, led32);
@@ -414,8 +415,8 @@ void led33(){
 }
 TimedAction LED34 =  TimedAction(TIME_UNIT, led34); 
 void led34(){
-  //step 4, Green
-  if (arbitraryLedDo(34, 0, 255 ,0, LED34, inst[34][positions[34]]) )
+  //step 4, BLUE
+  if (arbitraryLedDo(34, 0, 0 ,255, LED34, inst[34][positions[34]]) )
     ++positions[34];
 }
 TimedAction LED35 =  TimedAction(TIME_UNIT, led35); 
@@ -435,7 +436,8 @@ void led37(){
 }
 TimedAction LED38 = TimedAction(TIME_UNIT, led38);
 void led38(){
-  if (arbitraryLedDo(38, 30, 50, 100, LED38, inst[38][positions[38]]) )
+  //STEP 6 blue
+  if (arbitraryLedDo(38, 0, 0, 255, LED38, inst[38][positions[38]]) )
     ++positions[38];
 }
 TimedAction LED39 = TimedAction(TIME_UNIT, led39);
@@ -443,16 +445,16 @@ void led39(){
   if (arbitraryLedDo(39, 100, 62, 10, LED39, inst[39][positions[39]]) )
     ++positions[39];
 }
+/*RIP Sweet prince
 TimedAction LED40 =  TimedAction(TIME_UNIT, led40); 
 void led40(){
-  //step 2, Blue
-  if (arbitraryLedDo(40, 84, 17 ,100 , LED40, inst[40][positions[40]]) )
+  if (arbitraryLedDo(40, 84, 17 ,19 , LED40, inst[40][positions[40]]) )
     ++positions[40];
 }
 TimedAction LED41 =  TimedAction(TIME_UNIT, led41); 
 void led41(){
-  //step 2, blue
-  if (arbitraryLedDo(41, 0, 0 ,255, LED41, inst[41][positions[41]]) )
+  //step 2, PURPLE
+  if (arbitraryLedDo(41, 255, 255 ,255, LED41, inst[41][positions[41]]) )
     ++positions[41];
 }
 TimedAction LED42 = TimedAction(TIME_UNIT, led42);
@@ -487,8 +489,8 @@ void led47(){
 }
 TimedAction LED48 = TimedAction(TIME_UNIT, led48);
 void led48(){
-  //step 6, END, Green
-  if (arbitraryLedDo(48, 0, 255, 0, LED48, inst[48][positions[48]]) )
+  //step 6, END, BLUE
+  if (arbitraryLedDo(48, 0, 0, 255, LED48, inst[48][positions[48]]) )
     ++positions[48];
 }
 TimedAction LED49 = TimedAction(TIME_UNIT, led49);
@@ -496,6 +498,7 @@ void led49(){
   if (arbitraryLedDo(49, 39, 100, 49, LED49, inst[49][positions[49]]) )
     ++positions[49];
 }
+*/
 
 //____________________________________________________setup____________________________________
 void setup() { 
@@ -584,16 +587,17 @@ void loop() {
     LED37.check();
     LED38.check();
     LED39.check();
-    LED40.check();
-    LED41.check();
-    LED42.check();
-    LED43.check();
-    LED44.check();
-    LED45.check();
-    LED46.check();
-    LED47.check();
-    LED48.check();
-    LED49.check();
+//    LED40.check();
+//    LED41.check();
+//    LED42.check();
+//    LED43.check();
+//    LED44.check();
+//    LED45.check();
+//    LED46.check();
+//    LED47.check();
+//    LED48.check();
+//    LED49.check();
+//    leds[40] = CRGB(255,255,0);
     FastLED.show();
 }
  
